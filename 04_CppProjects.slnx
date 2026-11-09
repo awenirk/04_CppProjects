@@ -3,5 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="12_01_inheritance/12_01_inheritance.vcxproj" />
   <Project Path="14_02_HomeWork/14_02_HomeWork.vcxproj" />
 </Solution>

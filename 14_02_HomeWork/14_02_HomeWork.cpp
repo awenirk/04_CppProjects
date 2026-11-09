@@ -2,11 +2,14 @@
 using namespace std;
 
 class Enemy {
+protected:
     string health;
-    int health;
     int damage;
+    int health;
+    int maxHealth;
     int armor;
-    
+public:
+    void 
 };
 
 
