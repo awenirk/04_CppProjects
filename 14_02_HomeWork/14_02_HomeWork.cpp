@@ -483,5 +483,4 @@ int main() {
     paladin.HolyShield();
     ally.PrintInfo();
     paladin.ShowStats();
-
 }
