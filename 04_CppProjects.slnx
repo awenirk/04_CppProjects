@@ -3,6 +3,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="12_01_inheritance/12_01_inheritance.vcxproj" />
-  <Project Path="14_02_HomeWork/14_02_HomeWork.vcxproj" />
+  <Project Path="12_01_inheritance/12_01_inheritance.vcxproj" Id="25d1e290-b74b-4ce4-b847-178f7627e79a" />
+  <Project Path="14_02_HomeWork/14_02_HomeWork.vcxproj" Id="2d29f172-613f-479c-a0fc-703850e10682" />
 </Solution>
