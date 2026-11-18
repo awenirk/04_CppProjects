@@ -4,6 +4,22 @@ using namespace std;
 
 enum Type { None, Standart, XL, XXL };
 
+class Document {
+    string name;
+    string format;
+    int pages;
+public:
+    Document() : name("No name"), format("None"), pages(0) {}
+    Document(string n, string f, int p) : name(n), format(f), pages(p) {}
+
+    void ShowInfo()const {
+        cout << "-=-=-=- Document: -=-=-=-" << '\n';
+        cout << "Format: " << format << '\n';
+        cout << "Pages: " << pages << '\n';
+    }
+
+};
+
 class Cartrige {
     float volume;
     string color;
@@ -46,9 +62,11 @@ class Printer {
     Cartrige* cartriges;
     int countCartriges;
     Scaner scaner;
+    // Aggregation
+    Document* doc;
 public:
-    Printer(): model("None"), cartriges(nullptr), countCartriges(0) {}
-    Printer(string m, float s, float h, float w): model(m), scaner(s, h, w) {
+    Printer(): model("None"), cartriges(nullptr), countCartriges(0), doc(nullptr) {}
+    Printer(string m, float s, float h, float w): model(m), scaner(s, h, w), doc(nullptr) {
         countCartriges = 4;
         cartriges = new Cartrige[countCartriges];
         cartriges[0] = Cartrige(300, "Red", Type::Standart);
@@ -62,7 +80,11 @@ public:
         cout << "Scaning..." << '\n';
     }
     void PintDocument() {
-        cout << "Print Document..." << '\n';
+        if (doc != nullptr) {
+            cout << "Printing Document..." << '\n';
+            doc->ShowInfo();
+        }
+        else cout << "No document!" << '\n';
     }
     void PintSettings() {
         for (int i = 0; i < countCartriges; i++) {
@@ -71,6 +93,9 @@ public:
         scaner.ShowInfo();
     }
 
+    void AddDoc(Document* doc) {
+        this->doc = doc;
+    }
 };
 
 
@@ -82,5 +107,13 @@ int main()
     printer.PintDocument();
     printer.Scan();
     printer.PintSettings();
+
+    Document doc1("Password", "A5", 16);
+    Document doc2("C++ for beginner", "A4", 1520);
+
+    printer.AddDoc(&doc1);
+    printer.PintDocument();
+    printer.AddDoc(&doc2);
+    printer.PintDocument();
 
 }
