@@ -1,20 +1,300 @@
-// 19_03_AdditionalTask.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+using namespace std;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+/*
+Завдання 1:
+Клас Stack з обробкою винятків.
+*/
+
+class Stack {
+private:
+    enum { EMPTY = -1 };
+
+    int* arr;
+    int size;
+    int topIndex;
+
+public:
+    Stack() : arr(nullptr), size(0), topIndex(EMPTY) {}
+
+    Stack(int size) : arr(nullptr), size(size), topIndex(EMPTY) {
+        if (size <= 0) {
+            throw invalid_argument("Invalid stack size!");
+        }
+
+        arr = new int[size];
+    }
+
+    ~Stack() {
+        delete[] arr;
+    }
+
+    Stack(const Stack&) = delete;
+    Stack& operator=(const Stack&) = delete;
+
+    bool IsFull() const {
+        return topIndex == size - 1;
+    }
+
+    bool IsEmpty() const {
+        return topIndex == EMPTY;
+    }
+
+    bool Push(int elem) {
+        if (IsFull()) {
+            throw overflow_error("Stack is full!");
+        }
+
+        arr[++topIndex] = elem;
+        return true;
+    }
+
+    int Pop() {
+        if (IsEmpty()) {
+            throw underflow_error("Stack is empty!");
+        }
+
+        return arr[topIndex--];
+    }
+
+    int Peek() const {
+        if (IsEmpty()) {
+            throw underflow_error("Stack is empty!");
+        }
+
+        return arr[topIndex];
+    }
+
+    int GetCount() const {
+        return topIndex + 1;
+    }
+
+    void Clear() {
+        topIndex = EMPTY;
+    }
+
+    void Print() const {
+        for (int i = 0; i <= topIndex; i++) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+
+/*
+Завдання 1 (другий варіант):
+Двозв'язний список List з обробкою винятків.
+*/
+
+class List {
+private:
+    struct Node {
+        int data;
+        Node* prev;
+        Node* next;
+
+        Node(int value) : data(value), prev(nullptr), next(nullptr) {}
+    };
+
+    Node* head;
+    Node* tail;
+    int count;
+
+    Node* GetNode(int position) const {
+        if (position < 0 || position >= count) {
+            throw out_of_range("Invalid position!");
+        }
+
+        Node* current = head;
+
+        for (int i = 0; i < position; i++) {
+            current = current->next;
+        }
+
+        return current;
+    }
+
+public:
+    List() : head(nullptr), tail(nullptr), count(0) {}
+
+    ~List() {
+        Clear();
+    }
+
+    List(const List&) = delete;
+    List& operator=(const List&) = delete;
+
+    bool IsEmpty() const {
+        return head == nullptr;
+    }
+
+    int GetCount() const {
+        return count;
+    }
+
+    void AddToEnd(int value) {
+        Node* newNode = new Node(value);
+
+        if (IsEmpty()) {
+            head = tail = newNode;
+        }
+        else {
+            newNode->prev = tail;
+            tail->next = newNode;
+            tail = newNode;
+        }
+
+        count++;
+    }
+
+    void AddToBegin(int value) {
+        Node* newNode = new Node(value);
+
+        if (IsEmpty()) {
+            head = tail = newNode;
+        }
+        else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+
+        count++;
+    }
+
+    void Insert(int position, int value) {
+        if (position < 0 || position > count) {
+            throw out_of_range("Invalid position!");
+        }
+
+        if (position == 0) {
+            AddToBegin(value);
+            return;
+        }
+
+        if (position == count) {
+            AddToEnd(value);
+            return;
+        }
+
+        Node* current = GetNode(position);
+        Node* newNode = new Node(value);
+
+        newNode->prev = current->prev;
+        newNode->next = current;
+
+        current->prev->next = newNode;
+        current->prev = newNode;
+
+        count++;
+    }
+
+    int GetElement(int position) const {
+        if (IsEmpty()) {
+            throw underflow_error("List is empty!");
+        }
+
+        return GetNode(position)->data;
+    }
+
+    void Remove(int position) {
+        if (IsEmpty()) {
+            throw underflow_error("List is empty!");
+        }
+
+        Node* current = GetNode(position);
+
+        if (current == head) {
+            head = head->next;
+        }
+        else {
+            current->prev->next = current->next;
+        }
+
+        if (current == tail) {
+            tail = tail->prev;
+        }
+        else {
+            current->next->prev = current->prev;
+        }
+
+        delete current;
+        count--;
+    }
+
+    void Clear() {
+        while (head != nullptr) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+
+        tail = nullptr;
+        count = 0;
+    }
+
+    void Print() const {
+        if (IsEmpty()) {
+            throw underflow_error("List is empty!");
+        }
+
+        Node* current = head;
+
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+
+        cout << endl;
+    }
+};
+
+
+int main() {
+    try {
+        // Робота зі Stack
+        cout << "===== STACK =====" << endl;
+
+        Stack st(5);
+
+        for (int i = 0; i < 5; i++) {
+            st.Push(rand() % 50);
+        }
+
+        st.Print();
+
+        cout << "Deleted: " << st.Pop() << endl;
+        cout << "Top element: " << st.Peek() << endl;
+        cout << "Count: " << st.GetCount() << endl;
+
+
+        // Робота зі List
+        cout << "\n===== LIST =====" << endl;
+
+        List list;
+
+        list.AddToEnd(10);
+        list.AddToEnd(20);
+        list.AddToEnd(30);
+        list.AddToBegin(5);
+
+        list.Print();
+
+        list.Insert(2, 15);
+        list.Print();
+
+        cout << "Element at position 2: "
+            << list.GetElement(2) << endl;
+
+        list.Remove(1);
+        list.Print();
+
+        cout << "Count: " << list.GetCount() << endl;
+    }
+    catch (const exception& e) {
+        cout << "Exception: " << e.what() << endl;
+    }
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
