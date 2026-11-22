@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stdexcept>
-#include <new>
 using namespace std;
 
 /* Завдання 1:
@@ -94,7 +92,7 @@ int main()
 
         cout << "Size = " << st.GetCount() << endl;
     }
-    catch (const exception& e) {
-        cout << "Exception: " << e.what() << endl;
+    catch (const exception& ex) {
+        cout << "Exception: " << ex.what() << endl;
     }
 }
