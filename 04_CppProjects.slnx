@@ -15,4 +15,5 @@
   <Project Path="19_02_HomeWork/19_02_HomeWork.vcxproj" Id="50ff75a6-ba92-4ddb-8199-949cc51fd785" />
   <Project Path="20_01_STL_Vector/20_01_STL_Vector.vcxproj" Id="2513081e-e49e-456f-a31f-1597c3b2477a" />
   <Project Path="21_01_String/21_01_String.vcxproj" Id="1dedb9be-6c80-424a-b1ea-cb61cad00bd2" />
+  <Project Path="21_02_List/21_02_List.vcxproj" Id="8a7012c0-3c40-4175-874f-7c17b511ecfa" />
 </Solution>
