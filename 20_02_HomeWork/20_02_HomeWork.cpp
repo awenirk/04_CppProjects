@@ -181,7 +181,6 @@ istream& operator >> (istream& in, Train& train) {
     in >> train.departureTime.m >> sep;
     in >> train.departureTime.s >> sep;
 
-    in.ignore();
     getline(in, train.destination);
 
     return in;
@@ -192,27 +191,44 @@ int main()
 {
     Railway rw;
 
+    //1.	Додати потяг в систему;
     rw.addTrain(Train{ 1,{ 01,00,00 }, "Kyiv"});
     rw.addTrain(Train{ 2,{ 15,20,00 }, "Kharkiv"});
     rw.addTrain(Train{ 3,{ 18,50,00 }, "Lviv"});
     rw.addTrain(Train{ 4,{ 8,30,00 }, "Rivne"});
     rw.addTrain(Train{ 5,{ 8,30,00 }, "Ternopil"});
+    rw.addTrain(Train{ 6,{ 12,30,00 }, "Kyiv"});
 
+    //2.	Виведення інформації по всіх потягах;
     cout << "-=-=-=-=-=- Print All: -=-=-=-=-=-" << endl;
     rw.printAll();
 
+    //3.	Виведення інформації по конкретному потяга(по номеру);
     cout << endl << "-=-=-=-=-=- Print by num (2): -=-=-=-=-=-" << endl;
     rw.printByNum(2);
 
-    cout << endl << "-=-=-=-=-=- Print by num (2): -=-=-=-=-=-" << endl;
+    //4.	Відредагувати час відправлення потяга(по номеру);
+    cout << endl << "-=-=-=-=-=- Edit train (2): -=-=-=-=-=-" << endl;
+    rw.editTrainTimeByNum(2);
     rw.printByNum(2);
 
+    //5.	Відсортувати список потягів по часу відправлення;
+    cout << endl << "-=-=-=-=-=- Sort by time: -=-=-=-=-=-" << endl;
+    rw.sortByTime();
+    rw.printAll();
+    
+    //6.	Показати список потягів по станції призначення;
+    cout << endl << "-=-=-=-=-=- Show by destination (Kyiv): -=-=-=-=-=-" << endl;
+    rw.showByDestination("Kyiv");
+       
+    //7.	Записати список в файл;
+    cout << endl << "-=-=-=-=-=- Write to file -=-=-=-=-=-" << endl;
+    rw.writeToFile();
+    
+    //8.	Зчитати список з файлу.
+    cout << "-=-=-=-=-=- Read from file: -=-=-=-=-=-" << endl;
+    rw.readFromFile();
 
 
-
-
-
-
-
-
+    rw.printAll();
 }

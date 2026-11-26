@@ -1,0 +1,6 @@
+1|1:0:0|Kyiv
+2|1:2:3|Kharkiv
+4|8:30:0|Rivne
+5|8:30:0|Ternopil
+6|12:30:0|Kyiv
+3|18:50:0|Lviv
