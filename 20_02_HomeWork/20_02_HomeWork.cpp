@@ -103,16 +103,64 @@ public:
     }
     
     void editTrainTimeByNum(int num) {
-        
+        for (Train& train : trains) {
+            if (train.getNum() == num) {
+                int h, m, s;
+
+                cout << "Enter new time (h m s): ";
+                cin >> h >> m >> s;
+
+                train.setTime(h, m, s);
+                return;
+            }
+        }
+
+        cout << "Train not found!\n";
     }
-    void sortByTime() {}
+    void sortByTime() {
+        for (int i = 0; i < trains.size() - 1; i++) {
+            for (int j = 0; j < trains.size() - i - 1; j++) {
+                if (trains[j + 1] < trains[j]) {
+                    Train temp = trains[j];
+                    trains[j] = trains[j + 1];
+                    trains[j + 1] = temp;
+                }
+            }
+        }
+    }
 
     void writeToFile() {
-        ofstream out(file, ios_base::app);
-        
+        ofstream out("trains.txt");
+
+        if (!out.is_open()) {
+            cout << "File open error!\n";
+            return;
+        }
+
+        for (const Train& train : trains) {
+            out << train;
+        }
+
         out.close();
     }
-    void readFromFile() {}
+    void readFromFile() {
+        ifstream in("trains.txt");
+
+        if (!in.is_open()) {
+            cout << "File open error!\n";
+            return;
+        }
+
+        trains.clear();
+
+        Train train;
+
+        while (in >> train) {
+            trains.push_back(train);
+        }
+
+        in.close();
+    }
 
 };
 
@@ -147,11 +195,24 @@ int main()
     rw.addTrain(Train{ 1,{ 01,00,00 }, "Kyiv"});
     rw.addTrain(Train{ 2,{ 15,20,00 }, "Kharkiv"});
     rw.addTrain(Train{ 3,{ 18,50,00 }, "Lviv"});
+    rw.addTrain(Train{ 4,{ 8,30,00 }, "Rivne"});
+    rw.addTrain(Train{ 5,{ 8,30,00 }, "Ternopil"});
 
     cout << "-=-=-=-=-=- Print All: -=-=-=-=-=-" << endl;
     rw.printAll();
 
     cout << endl << "-=-=-=-=-=- Print by num (2): -=-=-=-=-=-" << endl;
     rw.printByNum(2);
+
+    cout << endl << "-=-=-=-=-=- Print by num (2): -=-=-=-=-=-" << endl;
+    rw.printByNum(2);
+
+
+
+
+
+
+
+
 
 }
